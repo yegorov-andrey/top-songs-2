@@ -8,14 +8,14 @@
   3) Hive - aggregate data and persist in new table on Minio S3
 
 ## How to Run
- 1. run `sbt docker:publishLocal` to build docker image of an application and push it to local registry
- 2. run `docker-compose up` to launch Minio S3, Spark master, Spark worker, NiFi, Kafka, Zookeeper and `top-songs-2` spark application docker containers
+ 1. run `sbt docker:publishLocal` to build docker image with `top-song-2` Spark application and push it to local registry
+ 2. run `docker-compose up` to launch Minio S3, Spark master, Spark worker, NiFi, Kafka, Zookeeper and `top-songs-2` Spark application docker containers
  3. configure NiFi flow:
-   3.1. open `http://localhost:8082/nifi/` in browser
-   3.2. Upload Template from `nifi/data/nifi-template-top-songs.xml`
-   3.3. add uploaded template Template
-   3.4. in ListS3 and FetchS3Object processors set Access Key ID to "minio" and Secret Access Key to "minio123"
-   3.5. in SplitRecords processor enable CSVReader and CSVWriter
+   3.1. wait for NiFi to start and open `http://localhost:8082/nifi/` in browser
+   3.2. upload Template from `nifi/data/nifi-template-top-songs.xml`
+   3.3. add uploaded Template `nifi-template-top-songs`
+   3.4. in `ListS3` and `FetchS3Object` processors set Access Key ID to "minio" and Secret Access Key to "minio123"
+   3.5. in `SplitRecords` processor enable `CSVReader` and `CSVWriter`
  4. start NiFi flow
 
 ## Workflow
