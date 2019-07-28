@@ -27,7 +27,10 @@ object deps {
   val jacksonCsv       = "com.fasterxml.jackson.dataformat"     % "jackson-dataformat-csv"         % v.jackson force()
   // misc
   val kryoShaded       = "com.esotericsoftware"                 %  "kryo-shaded"                   % "4.0.2"
-  val minio            = "io.minio"                             % "minio"                          % "6.0.8"
+  val minio            = "io.minio"                             %  "minio"                         % "6.0.8"
+  // tests
+  val scalastic        = "org.scalactic"                        %% "scalactic"                     % "3.0.8"
+  val scalatest        = "org.scalatest"                        %% "scalatest"                     % "3.0.8" % "test"
 
   // combined
   val sparkEssentials: Seq[ModuleID] = Seq(hadoop, hadoopAWS, kryoShaded)
@@ -36,4 +39,6 @@ object deps {
   val spark: Seq[ModuleID] = sparkEssentials ++ sparkModules
   val logging: Seq[ModuleID] = Seq(slf4j, log4j12)
   val jackson: Seq[ModuleID] = Seq(jacksonAnns, jacksonCore, jacksonDataBind, jacksonCsv)
+  
+  val tests: Seq[ModuleID] = Seq(scalastic, scalatest)
 }

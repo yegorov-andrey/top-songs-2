@@ -9,7 +9,7 @@ lazy val root = (project in file("."))
   .settings(
     name := "top-songs-2",
     libraryDependencies ++=
-      logging ++ spark ++ jackson,
+      logging ++ spark ++ jackson ++ tests,
     mainClass in Compile := Some("sigma.software.university.ayegorov.TopSongsApp"),
     dockerBaseImage := "gemelen/spark:2.4.3-2.12-2.8.5",
     dockerEntrypoint := Seq("bin/start.sh"),
