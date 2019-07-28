@@ -38,6 +38,8 @@ services:
     image: apache/nifi:latest
     ports:
       - "8082:8080"
+    volumes:
+      - ./nifi/data:/data
 
   zookeeper:
     container_name: zookeeper
@@ -48,22 +50,30 @@ services:
   kafka:
     container_name: kafka
     image: wurstmeister/kafka:latest
+    hostname: kafka
     ports:
       - "9092:9092"
     environment:
+      KAFKA_DELETE_TOPIC_ENABLE: "true"
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+#      KAFKA_ADVERTISED_HOST_NAME: kafka
+#      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENERS: PLAINTEXT://kafka:9092
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - zookeeper
 
   top-songs-2:
     container_name: top-songs-2
     image: "top-songs-2:latest"
     environment:
       - MASTER=spark://spark-master:7077
+      - KAFKA_TOPIC=top-songs
     volumes:
       - ./minio/data:/minio/data
     depends_on:
       - minio
       - spark-worker
+      - kafka
